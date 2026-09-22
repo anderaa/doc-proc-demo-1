@@ -585,3 +585,19 @@ WA); a class the program never saw in training cannot be measured on the holdout
   no gold and no predictions; and `budget.max_usd` being read but never enforced.
 - Ledger figures recorded at close: 5 labeling hours (user-reported) and $52 total spend (estimated
   from token counts, not from billing).
+
+## 2026-09-22 -- REPORT.md rewritten in plain language
+
+- The generated report was unreadable for a semi-technical audience, and its headline numbers
+  hid the most important fact. For the yes/no tasks the harness's per-task "F1" counts correct
+  "no" answers too, so it reads as plain accuracy: has_liability_cap showed 0.750 while the model
+  actually found only 6 of the 14 holdout contracts that have a cap. It was never wrong when it
+  did say yes (6 of 6).
+- REPORT.md is now hand-written around counts out of 32 rather than scores, sorted into
+  trustworthy / usable with a check / needs a person, with a glossary and links. An earlier
+  statement of mine, that about one cap in four is missed, was wrong and is corrected there:
+  more than half are missed.
+- The clause-text task is stated plainly: of 14 holdout contracts with a cap, the right passage
+  was quoted for 1, partially for 1, and 12 were wrong or blank.
+- Nothing generated was deleted. The harness's own text stays in runs/baseline_report.md,
+  runs/holdout/REPORT_SECTION.md and runs/production/qa_report.md, and the report links to them.

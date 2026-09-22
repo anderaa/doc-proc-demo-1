@@ -1,148 +1,179 @@
-# doc-proc-demo-1
+# Contract data extraction: results
 
-Generated 2026-09-22T20:20:10+00:00 by doc-harness 0.1.8.
+What was built, how well it works, and what still needs a person. Written for readers who
+are not working on the model. The original technical version of every number here is linked
+at the bottom.
 
-# Key documents
+Project `doc-proc-demo-1`, finished 22 September 2026, using doc-harness 0.1.8 and the
+Claude Haiku 4.5 model.
 
-Paths are relative to the repository root.
+## What it does
 
-| document | what it is |
+It reads a commercial contract and answers ten questions about it. It has been run over all
+**509 contracts**, and the answers are in
+[runs/production/outputs.jsonl](runs/production/outputs.jsonl).
+
+| Question | Answer it gives |
 | --- | --- |
-| [tasks.yaml](tasks.yaml) | The ten tasks: question, type, output space, matcher and threshold for each. The source of truth everything else is generated from. |
-| [programs/compiled/exp_002_prompt.md](programs/compiled/exp_002_prompt.md) | The shipped prompt, both predictors, in readable form. |
-| [programs/compiled/exp_002.json](programs/compiled/exp_002.json) | The shipped program itself, as loaded by `production`. The authoritative copy of the prompt. |
-| [data/annotation_rules.md](data/annotation_rules.md) | The rule applied to each task when labeling, and the edge cases decided. Read this before disputing any score. |
-| [decisions.md](decisions.md) | Every judgement call, in order, with the numbers it was made on. |
-| [config.yaml](config.yaml) | Model, budgets, split seed, thresholds, and the 61 classes excluded from the optimization target. |
-| [data/labels.jsonl](data/labels.jsonl) | The 120 labeled documents, all labeled blind. |
-| [data/splits.json](data/splits.json) | The fixed 63 train / 25 validation / 32 holdout assignment, seed 20260918. |
-| [runs/leaderboard.md](runs/leaderboard.md) | One row per experiment, with the single variable each one changed. |
-| [runs/holdout/metrics.json](runs/holdout/metrics.json) | The one-shot holdout measurement, including per-class counts and intervals. |
-| [runs/production/outputs.jsonl](runs/production/outputs.jsonl) | The deliverable: answers for all 509 documents. |
-| [runs/production/qa_report.md](runs/production/qa_report.md) | The production gates, including the class-distribution gate that fails, and the human review routes. |
-| [docs/protocol.md](docs/protocol.md) | The protocol this project followed. |
+| What kind of agreement is it? | One of seven kinds: distribution, IP or licensing, services, supply or manufacturing, marketing, partnership, non-compete |
+| Who are the parties? | The company names |
+| When was it signed? | A date. Just the year or month if that is all the contract gives |
+| Which state's law governs it? | A US state code, or FOREIGN |
+| Does it restrict competition? | Any of: non-compete, exclusivity, no poaching customers, no poaching employees |
+| Is there a cap on liability? | Yes or no |
+| What is the cap clause? | The text of the clause |
+| Can either side audit the other? | Yes or no |
+| How much notice stops an auto-renewal? | A number of days |
+| Can either side end it early without a reason? | Yes or no |
 
-# Baselines
+## How well it works
 
-| baseline | aggregate | agreement_type | parties | agreement_date | governing_law | competition_restrictions | has_liability_cap | liability_cap_clause | has_audit_rights | renewal_notice_days | termination_for_convenience |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| zero_shot | 0.823 | 0.543 | 0.851 | 0.844 | 0.126 | 0.789 | 0.818 | 0.627 | 0.933 | 0.750 | 0.846 |
-| bootstrap_few_shot | 0.823 | 0.543 | 0.851 | 0.844 | 0.126 | 0.789 | 0.818 | 0.627 | 0.933 | 0.750 | 0.846 |
+These numbers come from **32 contracts the model never saw during development**. They were
+set aside at the start, labelled by hand without looking at any model output, and used once,
+at the end. That is what makes them a fair estimate of how the model behaves on new
+contracts. See [How it was tested](#how-it-was-tested).
 
-Best baseline: **zero_shot** at 0.823. A compiled program has to beat this on the holdout, or shipping the baseline is the honest move.
+**Trustworthy.** Use these answers as they are.
 
+| Question | Result on the 32 test contracts |
+| --- | --- |
+| Which state's law | Right on all 29 contracts that name one, and correctly silent on the other 3 |
+| When it was signed | Right on 30 of 32 |
+| Who the parties are | Found 82 of the 91 companies, and named 7 that were not parties |
+| Auto-renewal notice | Right on all 7 that auto-renew, and correctly silent on the other 25 |
 
-# Holdout
+**Usable, with a check.** These are right about three times in four. Good enough to sort or
+filter contracts, not good enough to rely on for a single contract.
 
-Measured once on 32 documents (2026-09-22T19:26:00+00:00).
+| Question | Result on the 32 test contracts |
+| --- | --- |
+| What kind of agreement | Right on 26 of 32 |
+| Can either side audit | Right on 29 of 32. Found all 12 that have audit rights, and wrongly flagged 3 others |
+| Can either side end it early | Right on 24 of 32. Found 8 of the 11 that allow it, and wrongly flagged 5 others |
+| Does it restrict competition | Found 20 of the 25 restrictions, and flagged 8 that were not there |
 
-Aggregate **0.822** (95% CI 0.766-0.874) against 0.873 on validation, a gap of +0.051.
+**Needs a person.** Do not use these on their own.
 
-Reading: **these tasks memorized split specifics**. Action: **revert them to baseline**.
+| Question | Result on the 32 test contracts |
+| --- | --- |
+| Is there a liability cap | Found only **6 of the 14** contracts that have one. But it never claimed a cap that was not there: all 6 were real |
+| What the cap clause says | Of the 14 contracts with a cap, it quoted the right passage on **1**, part of it on 1, and got 12 wrong or blank |
 
-| task | holdout | 95% CI | validation | gap | support | reads as |
-| --- | --- | --- | --- | --- | --- | --- |
-| agreement_type | 0.657 | 0.472-0.787 | 0.531 | -0.127 | 32 | coarse comparison |
-| parties | 0.911 | 0.831-0.972 | 0.855 | -0.056 | 91 | measurable |
-| agreement_date | 0.935 | 0.839-1.000 | 0.913 | -0.022 | 31 | measurable |
-| governing_law | 0.173 | 0.096-0.173 | 0.126 | -0.047 | 29 | detecting total failure |
-| competition_restrictions | 0.696 | 0.457-0.860 | 0.919 | +0.222 | 25 | detecting total failure |
-| has_liability_cap | 0.600 | 0.286-0.800 | 0.870 | +0.270 | 32 | measurable |
-| liability_cap_clause | 0.234 | 0.000-0.535 | 0.628 | +0.395 | 2577 | measurable |
-| has_audit_rights | 0.889 | 0.727-1.000 | 1.000 | +0.111 | 32 | measurable |
-| renewal_notice_days | 1.000 | 1.000-1.000 | 0.667 | -0.333 | 7 | presence check only |
-| termination_for_convenience | 0.667 | 0.400-0.846 | 0.917 | +0.250 | 32 | measurable |
+The liability cap answers are the weak point of the system. Read
+[Known problems](#known-problems) before using them.
 
-Per task, precision and recall with their intervals:
+## What needs a person
 
-| task | P | P 95% CI | R | R 95% CI | F1 |
-| --- | --- | --- | --- | --- | --- |
-| agreement_type | 0.812 | 0.647-0.911 | 0.812 | 0.647-0.911 | 0.812 |
-| parties | 0.921 | 0.846-0.961 | 0.901 | 0.823-0.947 | 0.911 |
-| agreement_date | 0.935 | 0.793-0.982 | 0.935 | 0.793-0.982 | 0.935 |
-| governing_law | 1.000 | 0.883-1.000 | 1.000 | 0.883-1.000 | 1.000 |
-| competition_restrictions | 0.714 | 0.529-0.847 | 0.800 | 0.609-0.911 | 0.755 |
-| has_liability_cap | 0.750 | 0.579-0.867 | 0.750 | 0.579-0.867 | 0.750 |
-| liability_cap_clause | 0.277 | 0.258-0.298 | 0.202 | 0.187-0.218 | 0.234 |
-| has_audit_rights | 0.906 | 0.758-0.968 | 0.906 | 0.758-0.968 | 0.906 |
-| renewal_notice_days | 1.000 | 0.646-1.000 | 1.000 | 0.646-1.000 | 1.000 |
-| termination_for_convenience | 0.750 | 0.579-0.867 | 0.750 | 0.579-0.867 | 0.750 |
+The run flagged these contracts for human review. They are listed in
+[runs/production/qa_report.md](runs/production/qa_report.md).
 
-## Tasks with a large gap
-
-These learned something specific to the validation split: `competition_restrictions`, `has_liability_cap`, `liability_cap_clause`, `termination_for_convenience`.
-
-## What this holdout cannot measure
-
-The rarest class in each of these tasks has too few examples in the holdout for the
-number above to mean much. Do not quote them on their own.
-
-- **agreement_type**: no class reaches the support floor; macro-F1 computed over all classes
-- **governing_law**: no class reaches the support floor; macro-F1 computed over all classes
-- **competition_restrictions**: no class reaches the support floor; macro-F1 computed over all classes
-- **renewal_notice_days**: rarest class has 7 example(s): presence check only; this task's number should not be quoted on its own
-
-
-# Production QA
-
-509 of 509 documents produced output; 0 failed every retry and are recorded as failures. 0 came through the Batch API and 509 live.
-
-| check | result | detail |
+| Group | How many | Why |
 | --- | --- | --- |
-| coverage | pass | 509 outputs for 509 documents |
-| schema | pass | 0 parse or call failure(s), 0.00% against a ceiling of 0.50% |
-| class distribution | **FAIL** | shifted: has_liability_cap/false +15.7%, has_liability_cap/true -15.7% |
-| null rates | pass | abstention rates are in line with validation |
-| manual spot-check | pass | 50 random document(s) flagged for review |
+| Every contract where a liability cap matters | all 509 | The cap answers are unreliable, as above |
+| Left a question blank that is usually answered | 287 | A blank can mean "the contract does not say", but it can also mean the model gave up |
+| Least confident answers | 50 | The model was closest to the line on these |
+| A random sample | 50 | See below |
+| Pages that could not be read | 2 | Scanned images. Both were checked by hand and contain nothing the questions need |
 
-**Gates did not all pass; do not hand these results over yet.**
+**Why the random sample matters.** The other groups are contracts we already suspect are
+wrong, so they will look worse than the corpus as a whole. If you only check those, you will
+think the system is worse than it is. The 50 random contracts are the ones that tell you the
+true error rate, because nothing about them was pre-selected. Check those too.
 
-## Human review routes
+## How it was tested
 
-The random slice is not optional. The four targeted routes select documents that are
-already suspect, so a quality estimate built on them alone reads worse than the corpus is.
+1. **120 of the 509 contracts were labelled by hand**, by a person reading the contract, with
+   no model answers shown. That labelling took about 5 hours.
+2. Those 120 were split three ways, fixed in advance:
+   **63 for training**, **25 for tuning**, and **32 held back**.
+3. The model was improved using only the first two groups. Two attempts were made. The better
+   one, which asks the model to reason step by step before answering, was chosen.
+4. **The 32 held-back contracts were used once, at the end.** The file
+   [runs/holdout/.lock](runs/holdout/.lock) records that. Testing twice and keeping the
+   better score would make the number meaningless, so the system prevents it.
+5. The chosen model scored **0.822** on the held-back contracts against **0.873** on the
+   tuning contracts. The two being close means the model learned the task, rather than
+   memorising the contracts it was tuned on.
+6. As a comparison, the model with no tuning at all scored **0.823** on the tuning contracts.
+   Tuning was worth about 5 points there.
 
-| route | documents |
+**A caution about all these numbers.** They come from 32 contracts, and sometimes fewer:
+one contract is worth 3 points. Treat them as "about right", not exact. Where the report
+says "right on 24 of 32", the true rate could reasonably be anywhere from about 58% to 87%.
+
+## Known problems
+
+**1. Liability caps are missed more often than they are found.**
+The model found 6 of 14 caps in testing. Across all 509 contracts it reports a cap in 28.5%,
+while hand-labelling found caps in 44.2%. It is the same problem showing up at scale. When it
+does report a cap, it has been right, so treat a "yes" as reliable and a "no" as unchecked.
+This is why the automatic quality check on the full run is marked as failed.
+
+**2. The cap clause text is usually wrong.**
+It quoted the right passage for 1 of 14 caps. The instruction for this question was tuned on
+the 25 tuning contracts and did not survive contact with new ones: it scored 0.628 there and
+0.234 on the held-back set. The field is produced for all 509 contracts, but every value
+needs a lawyer's eye.
+
+**3. Party names have a known labelling fault.**
+In 13 of the 120 hand-labelled contracts, several company names were written into one cell,
+such as "Stryker and Conformis". The scorer reads that as one company with a long name, so
+it counts both as a miss and as a false name. The labels were accepted as the client supplied
+them. The effect: the party-name score cannot go above about 0.92 even for a perfect model.
+
+**4. Two scores look terrible and are not.**
+The "kind of agreement" and "governing law" questions are scored by averaging across every
+possible answer, including the 45 US states that never appear in the test set and therefore
+score zero. That drags the published averages down to 0.657 and 0.173. The real performance
+is in the table above: governing law was right on all 29. Quote the counts, not those two
+averages.
+
+**5. Rare answers were never tuned for.**
+61 answers were too rare in the labelled sample to train on: 52 states, 6 kinds of agreement,
+and 3 kinds of competition restriction. They are still reported. Any number resting on a
+handful of contracts is marked in the technical report.
+
+**6. Nothing was measured on the 389 contracts that were never labelled.**
+Every number here comes from the 32 test contracts. The full run was checked for coverage and
+formatting, not for correctness.
+
+## Words used in the technical files
+
+| Word | What it means |
 | --- | --- |
-| transcribed_or_unread | 2: KALLOINC_11_03_2011-EX-10.1-STRATEGIC ALLIANCE AGREEMENT, PRIMEENERGYRESOURCESCORP_04_02_2007-EX-10.28-COMPLETION AND LIQUIDITY MAINTENANCE AGREEMENT |
-| truncated | 0 |
-| nulls_on_answered_tasks | 287: 2ThemartComInc_19990826_10-12G_EX-10.10_6700288_EX-10.10_Co-Branding Agreement_ Agency Agreement, ABILITYINC_06_15_2020-EX-4.25-SERVICES AGREEMENT, ACCELERATEDTECHNOLOGIESHOLDINGCORP_04_24_2003-EX-10.13-JOINT VENTURE AGREEMENT, ACCURAYINC_09_01_2010-EX-10.31-DISTRIBUTOR AGREEMENT, ADAPTIMMUNETHERAPEUTICSPLC_04_06_2017-EX-10.11-STRATEGIC ALLIANCE AGREEMENT, ADMA BioManufacturing, LLC -  Amendment #3 to Manufacturing Agreement, AFSALABANCORPINC_08_01_1996-EX-1.1-AGENCY AGREEMENT, ALAMOGORDOFINANCIALCORP_12_16_1999-EX-1-AGENCY AGREEMENT, and 279 more |
-| low_confidence | 50: ALCOSTORESINC_12_14_2005-EX-10.26-AGENCY AGREEMENT, ATENTOSA_07_06_2020-EX-99.1-JOINT FILING AGREEMENT, AULAMERICANUNITTRUST_04_24_2020-EX-99.8.77-SERVICING AGREEMENT, ArcGroupInc_20171211_8-K_EX-10.1_10976103_EX-10.1_Sponsorship Agreement, BANGIINC_05_25_2005-EX-10-Premium Managed Hosting Agreement, BANUESTRAFINANCIALCORP_09_08_2006-EX-10.16-AGENCY AGREEMENT, BIOAMBERINC_04_10_2013-EX-10.34-DEVELOPMENT AGREEMENT - First Amendment, BLACKROCKMUNIHOLDINGSINVESTMENTQUALITYFUND_04_07_2020-EX-99.01-JOINT FILING AGREEMENT, and 42 more |
-| random_slice | 50: ASPIRITYHOLDINGSLLC_05_07_2012-EX-10.6-OUTSOURCING AGREEMENT, ATHENSBANCSHARESCORP_11_02_2009-EX-1.2-AGENCY AGREEMENT , 2009, Antares Pharma, Inc. - Manufacturing Agreement, BERKELEYLIGHTS,INC_06_26_2020-EX-10.12-COLLABORATION AGREEMENT, BIOFRONTERAAG_04_29_2019-EX-4.17-SUPPLY AGREEMENT, BLUEROCKRESIDENTIALGROWTHREIT,INC_06_01_2016-EX-1.1-AGENCY AGREEMENT, CANOPETROLEUM,INC_12_13_2007-EX-10.1-Sponsorship Agreement, CCAINDUSTRIESINC_04_14_2014-EX-10.1-OUTSOURCING AGREEMENT, and 42 more |
-| failed | 0 |
+| Holdout | The 32 contracts set aside and used once, at the end |
+| Validation | The 25 contracts used to compare tuning attempts |
+| Precision | Of the answers it gave, how many were right |
+| Recall | Of the answers it should have given, how many it found |
+| F1 | Precision and recall combined into one number. For the yes/no questions here it behaves like plain accuracy, which is why it hides the missed caps |
+| Macro-F1 | An average across every possible answer, including answers with no examples. See problem 4 |
+| Support | How many examples a number rests on. Small support means a shaky number |
+| Abstention | The model answering "the contract does not say" |
 
+## Key documents
 
-# Known limitations
+| Document | What it is |
+| --- | --- |
+| [runs/production/outputs.jsonl](runs/production/outputs.jsonl) | **The deliverable**: answers for all 509 contracts |
+| [runs/production/qa_report.md](runs/production/qa_report.md) | The automatic checks on the full run, and the review lists |
+| [programs/compiled/exp_002_prompt.md](programs/compiled/exp_002_prompt.md) | The exact instructions given to the model, in readable form |
+| [tasks.yaml](tasks.yaml) | The ten questions, and how each answer is checked |
+| [data/annotation_rules.md](data/annotation_rules.md) | The rules the human labeller followed, including the hard cases. Read this before disputing a score |
+| [decisions.md](decisions.md) | Every judgement call made during the project, with the numbers behind it |
+| [data/labels.jsonl](data/labels.jsonl) | The 120 hand-labelled contracts |
+| [data/splits.json](data/splits.json) | Which contracts were used for training, tuning and testing |
+| [config.yaml](config.yaml) | Model, budgets and settings |
+| [docs/protocol.md](docs/protocol.md) | The method this project followed |
 
-Read alongside the numbers above. Full reasoning and the numbers each was decided on are in
-`decisions.md`.
+## The original technical report
 
-- **Liability cap clause text is not fit for automated use.** Holdout token-F1 0.234 against
-  0.628 on validation: the tuned instruction fitted the validation split. The field is produced
-  for all 509 documents but every value needs human review.
-- **Liability caps are under-detected.** The program answers "cap" for 28.5% of the corpus
-  against 44.2% in the labeled sample, and the production class-distribution gate fails on it.
-  The same bias appears on validation (40% against 52% gold) and matches the holdout recall of
-  0.75: roughly one contract in four that has a cap is reported as having none. This is model
-  behaviour, not a corpus difference -- agreement type and governing law shares match the labeled
-  sample within 1-5 points.
-- **Quote holdout numbers, not validation ones.** has_liability_cap, termination_for_convenience
-  and competition_restrictions each fell 11-27 points from validation to holdout.
-- **governing_law's macro-F1 of 0.173 understates it.** The program was right on 29 of 29 holdout
-  documents. Macro-F1 averages over 52 state classes, 45 of which have no examples, and the
-  harness falls back to averaging all declared classes when no class reaches the support floor.
-  The same dilution applies to agreement_type.
-- **parties cannot exceed about 0.92.** 16 labels in 13 of the 120 documents join several party
-  names into one entry, which the scorer counts as both a false positive and a miss. The labels
-  were accepted as the client supplied them.
-- **61 classes are reported but were never optimized for**, being below the support floor of 30:
-  52 governing-law states, 6 agreement types, 3 competition restrictions. Several tasks' numbers
-  rest on single-figure supports and the harness names them above.
-- **Two documents have an unread scanned page**, both inspected by hand and judged to carry
-  nothing the tasks need.
+This file was rewritten by hand for readability. The text the harness generated, with the
+full tables, confidence intervals and per-class counts, is unchanged in:
 
----
+- [runs/baseline_report.md](runs/baseline_report.md) — the untuned starting point
+- [runs/holdout/REPORT_SECTION.md](runs/holdout/REPORT_SECTION.md) — the one-shot test, in full
+- [runs/holdout/metrics.json](runs/holdout/metrics.json) — every count behind it
+- [runs/production/qa_report.md](runs/production/qa_report.md) — the full run and its checks
+- [runs/leaderboard.md](runs/leaderboard.md) — the tuning attempts
 
-The "Key documents" and "Known limitations" sections are maintained by hand. `doc-harness close`
-regenerates this file from the baseline, holdout and production sections and will drop them, so
-re-add them if the project is ever closed again.
+Running `doc-harness close` again would overwrite this file with the generated version.

@@ -2,6 +2,26 @@
 
 Generated 2026-09-22T20:20:10+00:00 by doc-harness 0.1.8.
 
+# Key documents
+
+Paths are relative to the repository root.
+
+| document | what it is |
+| --- | --- |
+| [tasks.yaml](tasks.yaml) | The ten tasks: question, type, output space, matcher and threshold for each. The source of truth everything else is generated from. |
+| [programs/compiled/exp_002_prompt.md](programs/compiled/exp_002_prompt.md) | The shipped prompt, both predictors, in readable form. |
+| [programs/compiled/exp_002.json](programs/compiled/exp_002.json) | The shipped program itself, as loaded by `production`. The authoritative copy of the prompt. |
+| [data/annotation_rules.md](data/annotation_rules.md) | The rule applied to each task when labeling, and the edge cases decided. Read this before disputing any score. |
+| [decisions.md](decisions.md) | Every judgement call, in order, with the numbers it was made on. |
+| [config.yaml](config.yaml) | Model, budgets, split seed, thresholds, and the 61 classes excluded from the optimization target. |
+| [data/labels.jsonl](data/labels.jsonl) | The 120 labeled documents, all labeled blind. |
+| [data/splits.json](data/splits.json) | The fixed 63 train / 25 validation / 32 holdout assignment, seed 20260918. |
+| [runs/leaderboard.md](runs/leaderboard.md) | One row per experiment, with the single variable each one changed. |
+| [runs/holdout/metrics.json](runs/holdout/metrics.json) | The one-shot holdout measurement, including per-class counts and intervals. |
+| [runs/production/outputs.jsonl](runs/production/outputs.jsonl) | The deliverable: answers for all 509 documents. |
+| [runs/production/qa_report.md](runs/production/qa_report.md) | The production gates, including the class-distribution gate that fails, and the human review routes. |
+| [docs/protocol.md](docs/protocol.md) | The protocol this project followed. |
+
 # Baselines
 
 | baseline | aggregate | agreement_type | parties | agreement_date | governing_law | competition_restrictions | has_liability_cap | liability_cap_clause | has_audit_rights | renewal_notice_days | termination_for_convenience |
@@ -120,3 +140,9 @@ Read alongside the numbers above. Full reasoning and the numbers each was decide
   rest on single-figure supports and the harness names them above.
 - **Two documents have an unread scanned page**, both inspected by hand and judged to carry
   nothing the tasks need.
+
+---
+
+The "Key documents" and "Known limitations" sections are maintained by hand. `doc-harness close`
+regenerates this file from the baseline, holdout and production sections and will drop them, so
+re-add them if the project is ever closed again.

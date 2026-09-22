@@ -93,6 +93,34 @@ true error rate, because nothing about them was pre-selected. Check those too.
 6. As a comparison, the model with no tuning at all scored **0.823** on the tuning contracts.
    Tuning was worth about 5 points there.
 
+### What the 0.822 means
+
+It is one overall score, worked out like this:
+
+1. **Each question on each contract is marked right or wrong**, with no half marks. A date is
+   right or wrong. A party list must name every company and invent none. A cap clause must
+   overlap the marked passage by at least half.
+2. **Each contract scores the share of its questions answered right.** All ten count equally,
+   so eight right out of ten is 0.8.
+3. **The run scores the average across contracts.** Every contract counts the same, whether it
+   is 3 pages or 90.
+
+The per-contract scores here ran 1.0, 0.75, 0.75, 0.625, 0.889 and so on, averaging 0.822.
+
+One wrinkle worth knowing: a question is **skipped** for a contract when the right answer is
+one of the 61 rare answers nobody could train on (see problem 5). Two questions per contract
+were skipped on average. Governing law is the usual one, because every individual state is
+too rare, so that question only counts on contracts that name no governing law at all. That
+is why some contracts are scored out of nine or five rather than ten.
+
+So 0.822 reads as: *of the questions that counted, about 82% were exactly right, averaged
+over the 32 test contracts.*
+
+**The per-question counts earlier in this report are the better guide.** The overall score was
+useful for choosing between tuning attempts, but it hides which questions are carrying it, and
+the number of questions it divides by changes from contract to contract. It is also not the
+same arithmetic as the per-question scores, so the two will not reconcile.
+
 **A caution about all these numbers.** They come from 32 contracts, and sometimes fewer:
 one contract is worth 3 points. Treat them as "about right", not exact. Where the report
 says "right on 24 of 32", the true rate could reasonably be anywhere from about 58% to 87%.

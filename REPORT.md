@@ -125,6 +125,42 @@ same arithmetic as the per-question scores, so the two will not reconcile.
 one contract is worth 3 points. Treat them as "about right", not exact. Where the report
 says "right on 24 of 32", the true rate could reasonably be anywhere from about 58% to 87%.
 
+## How the prompt was tuned
+
+The model is not retrained here. What changes is the instruction it is given, and the tuning
+tool rewrites that instruction and keeps whatever scores best on the 25 tuning contracts.
+There are two instructions, one for the nine main questions and one for the cap clause. Both
+are in [programs/compiled/exp_002_prompt.md](programs/compiled/exp_002_prompt.md).
+
+**No worked examples were included.** Normally the tool adds solved contracts to the prompt
+as examples. Each one would have added a whole contract to every request: roughly $165 per
+attempt, and too long for the model to read on about one call in ten. So tuning could only
+change the wording.
+
+**Attempt 1** rewrote the cap-clause instruction and left the main one alone, so nine of the
+ten answers came out identical. Score on the tuning contracts: 0.823 to 0.838, all of it from
+the cap clause.
+
+**Attempt 2** changed one thing: the model now writes out its reasoning before answering.
+Score 0.873, with five questions improving by 5 to 13 points. This is the version that
+shipped. It was built from scratch, so it does not carry attempt 1's cap-clause wording.
+
+**What the tool wrote.** A short role and stakes ("a contract analysis expert reviewing
+agreements for a major law firm… errors could lead to significant financial liability"),
+followed by a numbered restatement of the rules: report only the date granularity the
+contract gives, take governing law from the governing-law clause rather than an address,
+do not count an exclusion of damages as a cap. It was never shown
+[data/annotation_rules.md](data/annotation_rules.md); it worked those out from the questions
+and the training contracts.
+
+**What survived the test.** The reasoning change did: 0.873 on the tuning contracts and 0.822
+on the held-back ones. The cap-clause rewording did not: 0.628 tuning, 0.234 held back. A
+prompt that reads sensibly can still be fitted to the 25 contracts it was tuned on, which is
+the whole reason for keeping 32 contracts back.
+
+Two of the three budgeted attempts were used, at about $10 each. The tuning attempts are
+listed in [runs/leaderboard.md](runs/leaderboard.md).
+
 ## Known problems
 
 **1. Liability caps are missed more often than they are found.**

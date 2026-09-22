@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "doc-proc-demo-1"
+version = "0.1.0"
+description = "doc-harness project: doc_proc_demo_1"
+requires-python = ">=3.12"
+dependencies = [
+    # exact pin: the harness is a fixed dependency of this project, never hand-edited
+    "doc-harness @ git+https://github.com/anderaa/doc-harness.git@v0.1.8",
+]
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+line-length = 120
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

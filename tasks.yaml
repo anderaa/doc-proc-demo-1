@@ -1,0 +1,116 @@
+# The source of truth for this project. Signatures, output types, normalizers, matchers and
+# report sections are all generated from here: adding a task means adding YAML, never editing
+# the harness.
+#
+# Every task is nullable unless declared otherwise. A wrong non-null answer counts as both a
+# false positive and a false negative; predicting null when gold is null is a true negative.
+#
+# One commented example per task type follows. Delete what you do not need.
+
+tasks:
+  - id: agreement_type
+    type: multiclass
+    # 25 CUAD-style types collapsed to 7 groups before labeling; see decisions.md
+    question: >
+      The single group that best describes the agreement as a whole, judged by its main
+      commercial purpose rather than its title alone. An amendment takes the group of the
+      agreement it amends.
+      distribution: distributor, reseller or agency agreements.
+      ip_licensing: licenses of intellectual property, trademarks or technology, and franchises.
+      services: service, consulting, maintenance, outsourcing, hosting and transportation.
+      supply_manufacturing: supply and manufacturing agreements.
+      marketing: marketing, promotion, co-branding, sponsorship, endorsement and affiliate.
+      partnership: joint ventures, strategic alliances, collaboration and development.
+      non_compete: agreements whose main purpose is a non-compete or non-solicitation undertaking.
+    output:
+      enum: [distribution, ip_licensing, services, supply_manufacturing, marketing, partnership,
+             non_compete]
+      nullable: false
+      synonyms: {distributor: distribution, reseller: distribution, agency: distribution,
+                 license: ip_licensing, ip: ip_licensing, "intellectual property": ip_licensing,
+                 franchise: ip_licensing, service: services, consulting: services,
+                 maintenance: services, outsourcing: services, hosting: services,
+                 transportation: services, supply: supply_manufacturing,
+                 manufacturing: supply_manufacturing, promotion: marketing, co_branding: marketing,
+                 sponsorship: marketing, endorsement: marketing, affiliate: marketing,
+                 joint_venture: partnership, "joint venture": partnership,
+                 strategic_alliance: partnership, "strategic alliance": partnership,
+                 collaboration: partnership, development: partnership}
+
+  - id: parties
+    type: extract_list
+    question: >
+      The legal names of the companies or other entities that are parties to the agreement.
+      Not the individuals who signed on their behalf, and not affiliates, guarantors or
+      counsel unless they are named as parties. An individual counts only when the
+      individual is personally a party. Empty if no party is named.
+    match: {matcher: list, normalizer: entity_name, pair_matcher: entity_name, theta: 0.90}
+
+  - id: agreement_date
+    type: extract_date
+    question: >
+      The date the agreement was signed or is stated to be dated. If only the month or only
+      the year is given, report only that much; never fill in a missing day or month. Null if
+      no date is given.
+    match: {matcher: date, granularity: day, allow_coarser: false}
+
+  - id: governing_law
+    type: multiclass
+    question: >
+      The jurisdiction whose law governs the agreement, taken from the governing-law clause,
+      not from a party's address or the venue for disputes. A US state or the District of
+      Columbia by its two-letter code; FOREIGN for any jurisdiction outside the US. Null if the
+      agreement names no governing law.
+    output:
+      enum: [AL, AK, AZ, AR, CA, CO, CT, DE, DC, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY, FOREIGN]
+      nullable: true
+      synonyms: {"Alabama": AL, "Alaska": AK, "Arizona": AZ, "Arkansas": AR, "California": CA, "Colorado": CO, "Connecticut": CT, "Delaware": DE, "District of Columbia": DC, "Florida": FL, "Georgia": GA, "Hawaii": HI, "Idaho": ID, "Illinois": IL, "Indiana": IN, "Iowa": IA, "Kansas": KS, "Kentucky": KY, "Louisiana": LA, "Maine": ME, "Maryland": MD, "Massachusetts": MA, "Michigan": MI, "Minnesota": MN, "Mississippi": MS, "Missouri": MO, "Montana": MT, "Nebraska": NE, "Nevada": NV, "New Hampshire": NH, "New Jersey": NJ, "New Mexico": NM, "New York": NY, "North Carolina": NC, "North Dakota": ND, "Ohio": OH, "Oklahoma": OK, "Oregon": OR, "Pennsylvania": PA, "Rhode Island": RI, "South Carolina": SC, "South Dakota": SD, "Tennessee": TN, "Texas": TX, "Utah": UT, "Vermont": VT, "Virginia": VA, "Washington": WA, "West Virginia": WV, "Wisconsin": WI, "Wyoming": WY}
+
+  - id: competition_restrictions
+    type: multilabel
+    question: >
+      Which restrictions on competition the agreement places on either party.
+      non_compete: a party may not compete, or operate in a business or territory.
+      exclusivity: a party must deal only with the other, or the other gets exclusive rights.
+      no_solicit_customers: a party may not solicit or take the other's customers or clients.
+      no_solicit_employees: a party may not solicit or hire the other's employees.
+      Empty list if there are none.
+    output:
+      enum: [non_compete, exclusivity, no_solicit_customers, no_solicit_employees]
+
+  - id: has_liability_cap
+    type: binary
+    question: >
+      Whether the agreement caps either party's liability, for example at a fixed amount or at
+      the fees paid. A clause that only excludes kinds of damages, such as consequential
+      damages, without limiting the amount, is not a cap. False if there is no such clause.
+    nullable: false
+
+  - id: liability_cap_clause
+    type: span
+    question: >
+      The clause that caps either party's liability. Null if the agreement has no cap.
+    match: {matcher: span, overlap_threshold: 0.5}
+    group: spans
+
+  - id: has_audit_rights
+    type: binary
+    question: >
+      Whether either party has the right to audit or inspect the other's books, records or
+      accounts. False if the agreement grants no such right.
+    nullable: false
+
+  - id: renewal_notice_days
+    type: extract_numeric
+    question: >
+      If the agreement renews automatically, the number of days' notice a party must give to
+      stop it renewing, as a number of days. Convert months at 30 days each and years at 365.
+      Null if the agreement does not renew automatically or states no notice period.
+    match: {matcher: numeric, tolerance: 0, tolerance_kind: absolute, unit: days}
+
+  - id: termination_for_convenience
+    type: binary
+    question: >
+      Whether either party may end the agreement early simply by giving notice, without
+      needing a reason such as breach or insolvency. False if neither party may.
+    nullable: false

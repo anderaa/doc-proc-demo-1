@@ -1,0 +1,1776 @@
+{
+  "metadata": {
+    "harness_version": "0.1.8",
+    "generated_at": "2026-09-22T19:26:00+00:00",
+    "n_examples": 32,
+    "tasks_source": "/Users/aaron/Projects/doc-proc-demo-1/tasks.yaml",
+    "support_floor": 30,
+    "measurable_floor": 10,
+    "seed": 20260918,
+    "n_failed_replies": 0,
+    "run": "holdout",
+    "split": "holdout",
+    "module": "chain_of_thought",
+    "task_model": "anthropic/claude-haiku-4-5",
+    "task_effort": null,
+    "task_thinking": null,
+    "reflection_model": "anthropic/claude-haiku-4-5",
+    "max_tokens": 4096,
+    "config_hash": "edd2cf79e39c28ef",
+    "opened_by": "holdout command (exp_002)",
+    "overrides": []
+  },
+  "aggregate": {
+    "score": 0.8219742063492064,
+    "ci95": [
+      0.7658975074404761,
+      0.8738879588293651
+    ],
+    "per_task_primary": {
+      "agreement_type": 0.6573593073593074,
+      "parties": 0.9111111111111112,
+      "agreement_date": 0.9354838709677419,
+      "governing_law": 0.17307692307692307,
+      "competition_restrictions": 0.6964285714285714,
+      "has_liability_cap": 0.6,
+      "liability_cap_clause": 0.23360287511230907,
+      "has_audit_rights": 0.888888888888889,
+      "renewal_notice_days": 1.0,
+      "termination_for_convenience": 0.6666666666666667
+    }
+  },
+  "tasks": {
+    "agreement_type": {
+      "type": "multiclass",
+      "primary_metric": "macro_f1",
+      "primary_value": 0.6573593073593074,
+      "counts": {
+        "tp": 26,
+        "fp": 6,
+        "fn": 6,
+        "tn": 0
+      },
+      "precision": 0.8125,
+      "recall": 0.8125,
+      "f1": 0.8125,
+      "support": 32,
+      "n_examples": 32,
+      "exact_match": 0.8125,
+      "gold_null_rate": 0.0,
+      "predicted_null_rate": 0.0,
+      "precision_ci95": [
+        0.6469084479862404,
+        0.9111045531043405
+      ],
+      "recall_ci95": [
+        0.6469084479862404,
+        0.9111045531043405
+      ],
+      "measurable": false,
+      "notes": [
+        "no class reaches the support floor; macro-F1 computed over all classes",
+        "rarest class has 0 example(s): not measurable; this task's number should not be quoted on its own"
+      ],
+      "classes": {
+        "distribution": {
+          "label": "distribution",
+          "tp": 1,
+          "fp": 2,
+          "fn": 1,
+          "support": 2,
+          "precision": 0.3333333333333333,
+          "recall": 0.5,
+          "f1": 0.4,
+          "recall_ci95": [
+            0.09453120573423074,
+            0.9054687942657693
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "ip_licensing": {
+          "label": "ip_licensing",
+          "tp": 3,
+          "fp": 1,
+          "fn": 1,
+          "support": 4,
+          "precision": 0.75,
+          "recall": 0.75,
+          "f1": 0.75,
+          "recall_ci95": [
+            0.30064184258240184,
+            0.9544127391902995
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "services": {
+          "label": "services",
+          "tp": 10,
+          "fp": 3,
+          "fn": 1,
+          "support": 11,
+          "precision": 0.7692307692307693,
+          "recall": 0.9090909090909091,
+          "f1": 0.8333333333333333,
+          "recall_ci95": [
+            0.6226415635484043,
+            0.9837678271141151
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        },
+        "supply_manufacturing": {
+          "label": "supply_manufacturing",
+          "tp": 2,
+          "fp": 0,
+          "fn": 1,
+          "support": 3,
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1": 0.8,
+          "recall_ci95": [
+            0.2076596008020477,
+            0.9385080552796037
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "marketing": {
+          "label": "marketing",
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "support": 6,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "recall_ci95": [
+            0.43649717781352987,
+            0.9699466302516935
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "presence check only"
+        },
+        "partnership": {
+          "label": "partnership",
+          "tp": 5,
+          "fp": 0,
+          "fn": 1,
+          "support": 6,
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1": 0.9090909090909091,
+          "recall_ci95": [
+            0.43649717781352987,
+            0.9699466302516935
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "presence check only"
+        },
+        "non_compete": {
+          "label": "non_compete",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        }
+      },
+      "confusion": [
+        [
+          "distribution",
+          "distribution",
+          1
+        ],
+        [
+          "distribution",
+          "services",
+          1
+        ],
+        [
+          "ip_licensing",
+          "distribution",
+          1
+        ],
+        [
+          "ip_licensing",
+          "ip_licensing",
+          3
+        ],
+        [
+          "marketing",
+          "marketing",
+          5
+        ],
+        [
+          "marketing",
+          "services",
+          1
+        ],
+        [
+          "partnership",
+          "partnership",
+          5
+        ],
+        [
+          "partnership",
+          "services",
+          1
+        ],
+        [
+          "services",
+          "ip_licensing",
+          1
+        ],
+        [
+          "services",
+          "services",
+          10
+        ],
+        [
+          "supply_manufacturing",
+          "distribution",
+          1
+        ],
+        [
+          "supply_manufacturing",
+          "supply_manufacturing",
+          2
+        ]
+      ]
+    },
+    "parties": {
+      "type": "extract_list",
+      "primary_metric": "f1",
+      "primary_value": 0.9111111111111112,
+      "counts": {
+        "tp": 82,
+        "fp": 7,
+        "fn": 9,
+        "tn": 0
+      },
+      "precision": 0.9213483146067416,
+      "recall": 0.9010989010989011,
+      "f1": 0.9111111111111112,
+      "support": 91,
+      "n_examples": 32,
+      "exact_match": 0.78125,
+      "gold_null_rate": 0.0,
+      "predicted_null_rate": 0.0,
+      "precision_ci95": [
+        0.846448576179568,
+        0.961380177834826
+      ],
+      "recall_ci95": [
+        0.8226142190849851,
+        0.9470913601808583
+      ],
+      "measurable": true,
+      "notes": []
+    },
+    "agreement_date": {
+      "type": "extract_date",
+      "primary_metric": "f1",
+      "primary_value": 0.9354838709677419,
+      "counts": {
+        "tp": 29,
+        "fp": 2,
+        "fn": 2,
+        "tn": 1
+      },
+      "precision": 0.9354838709677419,
+      "recall": 0.9354838709677419,
+      "f1": 0.9354838709677419,
+      "support": 31,
+      "n_examples": 32,
+      "exact_match": 0.9375,
+      "gold_null_rate": 0.03125,
+      "predicted_null_rate": 0.03125,
+      "precision_ci95": [
+        0.7928136326370188,
+        0.9821252164780854
+      ],
+      "recall_ci95": [
+        0.7928136326370188,
+        0.9821252164780854
+      ],
+      "measurable": true,
+      "notes": []
+    },
+    "governing_law": {
+      "type": "multiclass",
+      "primary_metric": "macro_f1",
+      "primary_value": 0.17307692307692307,
+      "counts": {
+        "tp": 29,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 29,
+      "n_examples": 32,
+      "exact_match": 1.0,
+      "gold_null_rate": 0.09375,
+      "predicted_null_rate": 0.09375,
+      "precision_ci95": [
+        0.8830302015002593,
+        1.0
+      ],
+      "recall_ci95": [
+        0.8830302015002593,
+        1.0
+      ],
+      "measurable": false,
+      "notes": [
+        "no class reaches the support floor; macro-F1 computed over all classes",
+        "rarest class has 0 example(s): not measurable; this task's number should not be quoted on its own"
+      ],
+      "classes": {
+        "AL": {
+          "label": "AL",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "AK": {
+          "label": "AK",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "AZ": {
+          "label": "AZ",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "AR": {
+          "label": "AR",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "CA": {
+          "label": "CA",
+          "tp": 6,
+          "fp": 0,
+          "fn": 0,
+          "support": 6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.6096657120978346,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "presence check only"
+        },
+        "CO": {
+          "label": "CO",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "CT": {
+          "label": "CT",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "DE": {
+          "label": "DE",
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "support": 3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.4385029682449546,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "DC": {
+          "label": "DC",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "FL": {
+          "label": "FL",
+          "tp": 2,
+          "fp": 0,
+          "fn": 0,
+          "support": 2,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.34238022750665303,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "GA": {
+          "label": "GA",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "HI": {
+          "label": "HI",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "ID": {
+          "label": "ID",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "IL": {
+          "label": "IL",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "IN": {
+          "label": "IN",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "IA": {
+          "label": "IA",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "KS": {
+          "label": "KS",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "KY": {
+          "label": "KY",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "LA": {
+          "label": "LA",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "ME": {
+          "label": "ME",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MD": {
+          "label": "MD",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MA": {
+          "label": "MA",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "support": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.20654931437723745,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MI": {
+          "label": "MI",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MN": {
+          "label": "MN",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MS": {
+          "label": "MS",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MO": {
+          "label": "MO",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "MT": {
+          "label": "MT",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "NE": {
+          "label": "NE",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "NV": {
+          "label": "NV",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "support": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.20654931437723745,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "NH": {
+          "label": "NH",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "NJ": {
+          "label": "NJ",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "NM": {
+          "label": "NM",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "NY": {
+          "label": "NY",
+          "tp": 10,
+          "fp": 0,
+          "fn": 0,
+          "support": 10,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.7224672001371107,
+            0.9999999999999999
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        },
+        "NC": {
+          "label": "NC",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "ND": {
+          "label": "ND",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "OH": {
+          "label": "OH",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "support": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.20654931437723745,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "OK": {
+          "label": "OK",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "OR": {
+          "label": "OR",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "PA": {
+          "label": "PA",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "RI": {
+          "label": "RI",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "SC": {
+          "label": "SC",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "SD": {
+          "label": "SD",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "TN": {
+          "label": "TN",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "TX": {
+          "label": "TX",
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "support": 1,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.20654931437723745,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "UT": {
+          "label": "UT",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "VT": {
+          "label": "VT",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "VA": {
+          "label": "VA",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "WA": {
+          "label": "WA",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "WV": {
+          "label": "WV",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "WI": {
+          "label": "WI",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "WY": {
+          "label": "WY",
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "support": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "recall_ci95": [
+            0.0,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "FOREIGN": {
+          "label": "FOREIGN",
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "support": 4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "recall_ci95": [
+            0.5101091635454027,
+            1.0
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        }
+      },
+      "confusion": [
+        [
+          "(null)",
+          "(null)",
+          3
+        ],
+        [
+          "CA",
+          "CA",
+          6
+        ],
+        [
+          "DE",
+          "DE",
+          3
+        ],
+        [
+          "FL",
+          "FL",
+          2
+        ],
+        [
+          "FOREIGN",
+          "FOREIGN",
+          4
+        ],
+        [
+          "MA",
+          "MA",
+          1
+        ],
+        [
+          "NV",
+          "NV",
+          1
+        ],
+        [
+          "NY",
+          "NY",
+          10
+        ],
+        [
+          "OH",
+          "OH",
+          1
+        ],
+        [
+          "TX",
+          "TX",
+          1
+        ]
+      ]
+    },
+    "competition_restrictions": {
+      "type": "multilabel",
+      "primary_metric": "macro_f1",
+      "primary_value": 0.6964285714285714,
+      "counts": {
+        "tp": 20,
+        "fp": 8,
+        "fn": 5,
+        "tn": 13
+      },
+      "precision": 0.7142857142857143,
+      "recall": 0.8,
+      "f1": 0.7547169811320756,
+      "support": 25,
+      "n_examples": 32,
+      "exact_match": 0.71875,
+      "gold_null_rate": 0.46875,
+      "predicted_null_rate": 0.40625,
+      "precision_ci95": [
+        0.5294071156670428,
+        0.8474600394333092
+      ],
+      "recall_ci95": [
+        0.6086904963045967,
+        0.9113941531319742
+      ],
+      "measurable": false,
+      "notes": [
+        "no class reaches the support floor; macro-F1 computed over all classes",
+        "rarest class has 2 example(s): not measurable; this task's number should not be quoted on its own"
+      ],
+      "classes": {
+        "non_compete": {
+          "label": "non_compete",
+          "tp": 4,
+          "fp": 3,
+          "fn": 3,
+          "support": 7,
+          "precision": 0.5714285714285714,
+          "recall": 0.5714285714285714,
+          "f1": 0.5714285714285714,
+          "recall_ci95": [
+            0.2504583645276572,
+            0.8417801447485302
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "presence check only"
+        },
+        "exclusivity": {
+          "label": "exclusivity",
+          "tp": 12,
+          "fp": 4,
+          "fn": 0,
+          "support": 12,
+          "precision": 0.75,
+          "recall": 1.0,
+          "f1": 0.8571428571428571,
+          "recall_ci95": [
+            0.7575059933447592,
+            1.0
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        },
+        "no_solicit_customers": {
+          "label": "no_solicit_customers",
+          "tp": 1,
+          "fp": 1,
+          "fn": 1,
+          "support": 2,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "recall_ci95": [
+            0.09453120573423074,
+            0.9054687942657693
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        },
+        "no_solicit_employees": {
+          "label": "no_solicit_employees",
+          "tp": 3,
+          "fp": 0,
+          "fn": 1,
+          "support": 4,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "recall_ci95": [
+            0.30064184258240184,
+            0.9544127391902995
+          ],
+          "measurable": false,
+          "above_support_floor": false,
+          "readable_as": "not measurable"
+        }
+      }
+    },
+    "has_liability_cap": {
+      "type": "binary",
+      "primary_metric": "f1_positive",
+      "primary_value": 0.6,
+      "counts": {
+        "tp": 24,
+        "fp": 8,
+        "fn": 8,
+        "tn": 0
+      },
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "support": 32,
+      "n_examples": 32,
+      "exact_match": 0.75,
+      "gold_null_rate": 0.0,
+      "predicted_null_rate": 0.0,
+      "precision_ci95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ],
+      "recall_ci95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ],
+      "measurable": true,
+      "notes": [],
+      "classes": {
+        "true": {
+          "label": "true",
+          "tp": 6,
+          "fp": 0,
+          "fn": 8,
+          "support": 14,
+          "precision": 1.0,
+          "recall": 0.42857142857142855,
+          "f1": 0.6,
+          "recall_ci95": [
+            0.21380798904474121,
+            0.6740935542034926
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        },
+        "false": {
+          "label": "false",
+          "tp": 18,
+          "fp": 8,
+          "fn": 0,
+          "support": 18,
+          "precision": 0.6923076923076923,
+          "recall": 1.0,
+          "f1": 0.8181818181818181,
+          "recall_ci95": [
+            0.8241207763533425,
+            1.0
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        }
+      },
+      "confusion": [
+        [
+          "false",
+          "false",
+          18
+        ],
+        [
+          "true",
+          "false",
+          8
+        ],
+        [
+          "true",
+          "true",
+          6
+        ]
+      ]
+    },
+    "liability_cap_clause": {
+      "type": "span",
+      "primary_metric": "token_f1",
+      "primary_value": 0.23360287511230907,
+      "counts": {
+        "tp": 520,
+        "fp": 1355,
+        "fn": 2057,
+        "tn": 18
+      },
+      "precision": 0.2773333333333333,
+      "recall": 0.20178502134264648,
+      "f1": 0.23360287511230907,
+      "support": 2577,
+      "n_examples": 32,
+      "exact_match": 0.59375,
+      "gold_null_rate": 0.5625,
+      "predicted_null_rate": 0.8125,
+      "precision_ci95": [
+        0.25754056051521573,
+        0.298036629843299
+      ],
+      "recall_ci95": [
+        0.18673894302104696,
+        0.2177188570708942
+      ],
+      "measurable": true,
+      "notes": []
+    },
+    "has_audit_rights": {
+      "type": "binary",
+      "primary_metric": "f1_positive",
+      "primary_value": 0.888888888888889,
+      "counts": {
+        "tp": 29,
+        "fp": 3,
+        "fn": 3,
+        "tn": 0
+      },
+      "precision": 0.90625,
+      "recall": 0.90625,
+      "f1": 0.90625,
+      "support": 32,
+      "n_examples": 32,
+      "exact_match": 0.90625,
+      "gold_null_rate": 0.0,
+      "predicted_null_rate": 0.0,
+      "precision_ci95": [
+        0.7578184527161212,
+        0.9675984487016337
+      ],
+      "recall_ci95": [
+        0.7578184527161212,
+        0.9675984487016337
+      ],
+      "measurable": true,
+      "notes": [],
+      "classes": {
+        "true": {
+          "label": "true",
+          "tp": 12,
+          "fp": 3,
+          "fn": 0,
+          "support": 12,
+          "precision": 0.8,
+          "recall": 1.0,
+          "f1": 0.888888888888889,
+          "recall_ci95": [
+            0.7575059933447592,
+            1.0
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        },
+        "false": {
+          "label": "false",
+          "tp": 17,
+          "fp": 0,
+          "fn": 3,
+          "support": 20,
+          "precision": 1.0,
+          "recall": 0.85,
+          "f1": 0.9189189189189189,
+          "recall_ci95": [
+            0.6395811352592431,
+            0.9476312541037835
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        }
+      },
+      "confusion": [
+        [
+          "false",
+          "false",
+          17
+        ],
+        [
+          "false",
+          "true",
+          3
+        ],
+        [
+          "true",
+          "true",
+          12
+        ]
+      ]
+    },
+    "renewal_notice_days": {
+      "type": "extract_numeric",
+      "primary_metric": "f1",
+      "primary_value": 1.0,
+      "counts": {
+        "tp": 7,
+        "fp": 0,
+        "fn": 0,
+        "tn": 25
+      },
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 7,
+      "n_examples": 32,
+      "exact_match": 1.0,
+      "gold_null_rate": 0.78125,
+      "predicted_null_rate": 0.78125,
+      "precision_ci95": [
+        0.6456695649333126,
+        1.0
+      ],
+      "recall_ci95": [
+        0.6456695649333126,
+        1.0
+      ],
+      "measurable": false,
+      "notes": [
+        "rarest class has 7 example(s): presence check only; this task's number should not be quoted on its own"
+      ]
+    },
+    "termination_for_convenience": {
+      "type": "binary",
+      "primary_metric": "f1_positive",
+      "primary_value": 0.6666666666666667,
+      "counts": {
+        "tp": 24,
+        "fp": 8,
+        "fn": 8,
+        "tn": 0
+      },
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "support": 32,
+      "n_examples": 32,
+      "exact_match": 0.75,
+      "gold_null_rate": 0.0,
+      "predicted_null_rate": 0.0,
+      "precision_ci95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ],
+      "recall_ci95": [
+        0.5789344100575552,
+        0.8674759908149096
+      ],
+      "measurable": true,
+      "notes": [],
+      "classes": {
+        "true": {
+          "label": "true",
+          "tp": 8,
+          "fp": 5,
+          "fn": 3,
+          "support": 11,
+          "precision": 0.6153846153846154,
+          "recall": 0.7272727272727273,
+          "f1": 0.6666666666666667,
+          "recall_ci95": [
+            0.43435469882387084,
+            0.902539407099751
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        },
+        "false": {
+          "label": "false",
+          "tp": 16,
+          "fp": 3,
+          "fn": 5,
+          "support": 21,
+          "precision": 0.8421052631578947,
+          "recall": 0.7619047619047619,
+          "f1": 0.8,
+          "recall_ci95": [
+            0.5490882631704924,
+            0.8937198697736354
+          ],
+          "measurable": true,
+          "above_support_floor": false,
+          "readable_as": "detecting total failure"
+        }
+      },
+      "confusion": [
+        [
+          "false",
+          "false",
+          16
+        ],
+        [
+          "false",
+          "true",
+          5
+        ],
+        [
+          "true",
+          "false",
+          3
+        ],
+        [
+          "true",
+          "true",
+          8
+        ]
+      ]
+    }
+  },
+  "excluded_classes": {
+    "agreement_type": [
+      "distribution",
+      "ip_licensing",
+      "marketing",
+      "non_compete",
+      "partnership",
+      "supply_manufacturing"
+    ],
+    "competition_restrictions": [
+      "no_solicit_customers",
+      "no_solicit_employees",
+      "non_compete"
+    ],
+    "governing_law": [
+      "AK",
+      "AL",
+      "AR",
+      "AZ",
+      "CA",
+      "CO",
+      "CT",
+      "DC",
+      "DE",
+      "FL",
+      "FOREIGN",
+      "GA",
+      "HI",
+      "IA",
+      "ID",
+      "IL",
+      "IN",
+      "KS",
+      "KY",
+      "LA",
+      "MA",
+      "MD",
+      "ME",
+      "MI",
+      "MN",
+      "MO",
+      "MS",
+      "MT",
+      "NC",
+      "ND",
+      "NE",
+      "NH",
+      "NJ",
+      "NM",
+      "NV",
+      "NY",
+      "OH",
+      "OK",
+      "OR",
+      "PA",
+      "RI",
+      "SC",
+      "SD",
+      "TN",
+      "TX",
+      "UT",
+      "VA",
+      "VT",
+      "WA",
+      "WI",
+      "WV",
+      "WY"
+    ]
+  },
+  "unmeasurable_tasks": [
+    "agreement_type",
+    "governing_law",
+    "competition_restrictions",
+    "renewal_notice_days"
+  ],
+  "failures": []
+}

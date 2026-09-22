@@ -1,0 +1,79 @@
+{
+  "predict_all": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "Read the document and answer each question about it. Answer null when the document does not state the answer.",
+      "fields": [
+        {
+          "prefix": "Document:",
+          "description": "The full extracted text of the document."
+        },
+        {
+          "prefix": "Agreement Type:",
+          "description": "The single group that best describes the agreement as a whole, judged by its main commercial purpose rather than its title alone. An amendment takes the group of the agreement it amends. distribution: distributor, reseller or agency agreements. ip_licensing: licenses of intellectual property, trademarks or technology, and franchises. services: service, consulting, maintenance, outsourcing, hosting and transportation. supply_manufacturing: supply and manufacturing agreements. marketing: marketing, promotion, co-branding, sponsorship, endorsement and affiliate. partnership: joint ventures, strategic alliances, collaboration and development. non_compete: agreements whose main purpose is a non-compete or non-solicitation undertaking."
+        },
+        {
+          "prefix": "Parties:",
+          "description": "The legal names of the companies or other entities that are parties to the agreement. Not the individuals who signed on their behalf, and not affiliates, guarantors or counsel unless they are named as parties. An individual counts only when the individual is personally a party. Empty if no party is named."
+        },
+        {
+          "prefix": "Agreement Date:",
+          "description": "The date the agreement was signed or is stated to be dated. If only the month or only the year is given, report only that much; never fill in a missing day or month. Null if no date is given."
+        },
+        {
+          "prefix": "Governing Law:",
+          "description": "The jurisdiction whose law governs the agreement, taken from the governing-law clause, not from a party's address or the venue for disputes. A US state or the District of Columbia by its two-letter code; FOREIGN for any jurisdiction outside the US. Null if the agreement names no governing law."
+        },
+        {
+          "prefix": "Competition Restrictions:",
+          "description": "Which restrictions on competition the agreement places on either party. non_compete: a party may not compete, or operate in a business or territory. exclusivity: a party must deal only with the other, or the other gets exclusive rights. no_solicit_customers: a party may not solicit or take the other's customers or clients. no_solicit_employees: a party may not solicit or hire the other's employees. Empty list if there are none."
+        },
+        {
+          "prefix": "Has Liability Cap:",
+          "description": "Whether the agreement caps either party's liability, for example at a fixed amount or at the fees paid. A clause that only excludes kinds of damages, such as consequential damages, without limiting the amount, is not a cap. False if there is no such clause."
+        },
+        {
+          "prefix": "Has Audit Rights:",
+          "description": "Whether either party has the right to audit or inspect the other's books, records or accounts. False if the agreement grants no such right."
+        },
+        {
+          "prefix": "Renewal Notice Days:",
+          "description": "If the agreement renews automatically, the number of days' notice a party must give to stop it renewing, as a number of days. Convert months at 30 days each and years at 365. Null if the agreement does not renew automatically or states no notice period."
+        },
+        {
+          "prefix": "Termination For Convenience:",
+          "description": "Whether either party may end the agreement early simply by giving notice, without needing a reason such as breach or insolvency. False if neither party may."
+        }
+      ]
+    },
+    "lm": null
+  },
+  "predict_spans": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are a legal contract analyst reviewing agreements for a high-stakes merger and acquisition due diligence process. Your client is considering acquiring a company with multiple active contracts, and they need to understand the financial risk exposure under each agreement. Specifically, they need to identify whether any contracts contain liability caps—provisions that limit the total amount of damages one party can recover from the other.\n\nRead the provided contract document carefully and determine whether it contains a clause that caps or limits the liability of either party. A liability cap is a provision that restricts the amount of damages recoverable—for example, by limiting liability to:\n- A fixed dollar amount\n- A multiple of fees paid (e.g., \"liability shall not exceed 12 months of fees\")\n- A percentage of contract value\n- Any other quantified limitation on total damages exposure\n\nImportant: Do NOT count clauses that merely exclude or carve out specific *types* of damages (such as consequential damages, indirect damages, lost profits, or punitive damages) without also limiting the total *amount* of recoverable damages. Those are damage exclusions, not liability caps.\n\nYour answer should be:\n- **The exact text of the liability cap clause** if one exists in the document\n- **null** if the agreement contains no liability cap provision\n\nThis determination is critical because your client needs to assess whether their financial exposure under this contract is capped at a manageable level or whether they face unlimited liability exposure. An inaccurate answer could result in millions of dollars in unquantified risk.",
+      "fields": [
+        {
+          "prefix": "Document:",
+          "description": "The full extracted text of the document."
+        },
+        {
+          "prefix": "Liability Cap Clause:",
+          "description": "The clause that caps either party's liability. Null if the agreement has no cap.\nAnswer by quoting the passage verbatim from the document, as one continuous excerpt. Do not give character offsets. Null if the document has no such passage."
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.3.1",
+      "cloudpickle": "3.1"
+    }
+  }
+}

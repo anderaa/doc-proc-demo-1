@@ -1,0 +1,19 @@
+{
+  "exp_id": "exp_002",
+  "optimizer": "MIPROv2",
+  "aggregate": 0.8732222222222222,
+  "per_task": {
+    "agreement_type": 0.5306122448979591,
+    "parties": 0.8549618320610687,
+    "agreement_date": 0.9130434782608695,
+    "governing_law": 0.12606837606837606,
+    "competition_restrictions": 0.9188311688311688,
+    "has_liability_cap": 0.8695652173913044,
+    "liability_cap_clause": 0.6283220944069814,
+    "has_audit_rights": 1.0,
+    "renewal_notice_days": 0.6666666666666665,
+    "termination_for_convenience": 0.9166666666666666
+  },
+  "program": "/Users/aaron/Projects/doc-proc-demo-1/programs/compiled/exp_002.json",
+  "pinned_at": "2026-09-22T19:21:08+00:00"
+}

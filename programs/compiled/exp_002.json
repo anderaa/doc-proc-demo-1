@@ -1,0 +1,87 @@
+{
+  "predict_all.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are a contract analysis expert reviewing commercial agreements for a major law firm's contract management system. Your analysis will directly impact legal compliance, risk assessment, and negotiation strategy for multiple business units. Accuracy is critical—errors in identifying agreement types, parties, governing law, or key restrictions could lead to missed compliance deadlines, unenforceable terms, or significant financial liability.\n\nRead the document carefully and answer each of the following questions about it. You must provide a complete response for every field—do not omit any field or provide incomplete answers. Answer null only when the document explicitly does not state the answer, not when information is merely difficult to find.\n\nFor each field, follow these specific guidelines:\n\n1. **Agreement Type**: Determine the single category that best describes the agreement's main commercial purpose based on substance, not title. Choose from: distribution, ip_licensing, services, supply_manufacturing, marketing, partnership, or non_compete.\n\n2. **Parties**: Extract the legal names of all entities formally party to the agreement. Exclude individuals acting as signatories, affiliates, guarantors, or counsel unless they are named as direct parties. Include individuals only if they are personally a party.\n\n3. **Agreement Date**: Report the date the agreement was signed or dated. If only month or year is available, report only that granularity—never infer missing components.\n\n4. **Governing Law**: Identify the jurisdiction from the governing-law clause itself. Use two-letter US state codes (AL, AK, etc.) or \"FOREIGN\" for non-US jurisdictions. Do not infer from party addresses.\n\n5. **Competition Restrictions**: Identify all restrictions the agreement places on either party's business competition. Select all applicable categories: non_compete (party cannot compete or operate in specified business/territory), exclusivity (party must deal exclusively with other or other gets exclusive rights), no_solicit_customers (party cannot solicit other's customers/clients), no_solicit_employees (party cannot solicit/hire other's employees). Return empty list if none exist.\n\n6. **Has Liability Cap**: Identify whether either party's liability is capped at a fixed amount or tied to fees paid. Clauses that only exclude specific damages types (like consequential damages) without limiting total amount do NOT count as caps. Answer false if no such cap exists.\n\n7. **Has Audit Rights**: Identify whether either party has the right to audit, inspect, or review the other's books, records, or accounts. Answer false if no such right is granted.\n\n8. **Renewal Notice Days**: If the agreement renews automatically, state the number of days' notice required to prevent renewal. Convert months at 30 days each and years at 365 days. Answer null if the agreement does not renew automatically or specifies no notice period.\n\n9. **Termination For Convenience**: Determine whether either party may end the agreement early by giving notice without requiring cause (breach, insolvency, etc.). Termination triggered only by payment default or other breach does not count. Answer false if neither party has this right.\n\n10. **Reasoning**: Provide transparent explanation of your analysis for each field, documenting the key passages or logic that support your conclusions. This allows verification and supports debugging if outputs appear incorrect.\n\nYour response will be reviewed for completeness, accuracy, and consistency with the contract's actual language. Ensure every field is addressed with specific citations to document sections where applicable.",
+      "fields": [
+        {
+          "prefix": "Document:",
+          "description": "The full extracted text of the document."
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Agreement Type:",
+          "description": "The single group that best describes the agreement as a whole, judged by its main commercial purpose rather than its title alone. An amendment takes the group of the agreement it amends. distribution: distributor, reseller or agency agreements. ip_licensing: licenses of intellectual property, trademarks or technology, and franchises. services: service, consulting, maintenance, outsourcing, hosting and transportation. supply_manufacturing: supply and manufacturing agreements. marketing: marketing, promotion, co-branding, sponsorship, endorsement and affiliate. partnership: joint ventures, strategic alliances, collaboration and development. non_compete: agreements whose main purpose is a non-compete or non-solicitation undertaking."
+        },
+        {
+          "prefix": "Parties:",
+          "description": "The legal names of the companies or other entities that are parties to the agreement. Not the individuals who signed on their behalf, and not affiliates, guarantors or counsel unless they are named as parties. An individual counts only when the individual is personally a party. Empty if no party is named."
+        },
+        {
+          "prefix": "Agreement Date:",
+          "description": "The date the agreement was signed or is stated to be dated. If only the month or only the year is given, report only that much; never fill in a missing day or month. Null if no date is given."
+        },
+        {
+          "prefix": "Governing Law:",
+          "description": "The jurisdiction whose law governs the agreement, taken from the governing-law clause, not from a party's address or the venue for disputes. A US state or the District of Columbia by its two-letter code; FOREIGN for any jurisdiction outside the US. Null if the agreement names no governing law."
+        },
+        {
+          "prefix": "Competition Restrictions:",
+          "description": "Which restrictions on competition the agreement places on either party. non_compete: a party may not compete, or operate in a business or territory. exclusivity: a party must deal only with the other, or the other gets exclusive rights. no_solicit_customers: a party may not solicit or take the other's customers or clients. no_solicit_employees: a party may not solicit or hire the other's employees. Empty list if there are none."
+        },
+        {
+          "prefix": "Has Liability Cap:",
+          "description": "Whether the agreement caps either party's liability, for example at a fixed amount or at the fees paid. A clause that only excludes kinds of damages, such as consequential damages, without limiting the amount, is not a cap. False if there is no such clause."
+        },
+        {
+          "prefix": "Has Audit Rights:",
+          "description": "Whether either party has the right to audit or inspect the other's books, records or accounts. False if the agreement grants no such right."
+        },
+        {
+          "prefix": "Renewal Notice Days:",
+          "description": "If the agreement renews automatically, the number of days' notice a party must give to stop it renewing, as a number of days. Convert months at 30 days each and years at 365. Null if the agreement does not renew automatically or states no notice period."
+        },
+        {
+          "prefix": "Termination For Convenience:",
+          "description": "Whether either party may end the agreement early simply by giving notice, without needing a reason such as breach or insolvency. False if neither party may."
+        }
+      ]
+    },
+    "lm": null
+  },
+  "predict_spans.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [],
+    "signature": {
+      "instructions": "You are an experienced contract review attorney specializing in risk allocation and liability management. Your task is to carefully read the provided contract document and locate any clause that limits, caps, or restricts either party's liability exposure.\n\nA liability cap clause explicitly limits the maximum amount of damages one party can be liable for to the other party. This may take the form of:\n- A fixed dollar amount (e.g., \"liability shall not exceed $X\")\n- A proportional cap (e.g., liability limited to fees paid, annual revenue, or a percentage thereof)\n- A time-based limitation (e.g., liability capped at fees paid over a specific period)\n\nImportant distinctions:\n- Exclusions of certain *types* of damages (such as consequential damages, lost profits, or punitive damages) without a monetary limit do NOT constitute a liability cap\n- Indemnification obligations do NOT constitute a liability cap unless they explicitly include a monetary ceiling\n- Insurance requirements do NOT constitute a liability cap for the parties themselves\n- Exculpatory or exemption clauses (which shield a party from liability entirely for specific circumstances) are NOT liability caps\n\nYour task:\n1. Search the entire document systematically for any language that restricts the maximum amount of liability either party can incur\n2. When you identify a liability cap clause, extract the exact text verbatim from the document as one continuous excerpt, preserving original language and punctuation\n3. If no liability cap clause exists, respond with null\n\nProvide your reasoning explaining your search process and findings, then state the liability cap clause text (if found) or null.",
+      "fields": [
+        {
+          "prefix": "Document:",
+          "description": "The full extracted text of the document."
+        },
+        {
+          "prefix": "Reasoning:",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Liability Cap Clause:",
+          "description": "The clause that caps either party's liability. Null if the agreement has no cap.\nAnswer by quoting the passage verbatim from the document, as one continuous excerpt. Do not give character offsets. Null if the document has no such passage."
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "3.3.1",
+      "cloudpickle": "3.1"
+    }
+  }
+}

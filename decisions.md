@@ -601,3 +601,18 @@ WA); a class the program never saw in training cannot be measured on the holdout
   was quoted for 1, partially for 1, and 12 were wrong or blank.
 - Nothing generated was deleted. The harness's own text stays in runs/baseline_report.md,
   runs/holdout/REPORT_SECTION.md and runs/production/qa_report.md, and the report links to them.
+
+## 2026-09-22 -- correction to the previous entry
+
+- The previous entry claimed the harness's per-task number for a binary task counts correct "no"
+  answers and so hid the missed liability caps. That is wrong, and the claim was Claude's error.
+  `evaluate.py` reports `f1_positive` for binary tasks: has_liability_cap was published as 0.600
+  with precision 1.000 and recall 0.429 in runs/holdout/metrics.json, which is exactly the 6 of 14
+  finding. The harness had it right.
+- What misled Claude: the generated holdout section prints a second table, "Per task, precision and
+  recall", computed over both classes together, which shows 0.750 / 0.750 for the same task. That
+  table reads like the headline and looks much better than the positive class does.
+- The rewrite of REPORT.md still stands on its own merits -- counts out of 32 are easier to act on
+  than any score -- and its glossary entry for F1 has been corrected.
+- The remaining harness request is smaller than first stated: surface the per-class precision and
+  recall that metrics.json already holds in the generated report, next to the combined table.

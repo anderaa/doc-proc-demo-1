@@ -145,7 +145,7 @@ formatting, not for correctness.
 | Validation | The 25 contracts used to compare tuning attempts |
 | Precision | Of the answers it gave, how many were right |
 | Recall | Of the answers it should have given, how many it found |
-| F1 | Precision and recall combined into one number. For the yes/no questions here it behaves like plain accuracy, which is why it hides the missed caps |
+| F1 | Precision and recall combined into one number. For the yes/no questions it is measured only on the "yes" answers, so the liability cap score of 0.600 already reflects the missed caps |
 | Macro-F1 | An average across every possible answer, including answers with no examples. See problem 4 |
 | Support | How many examples a number rests on. Small support means a shaky number |
 | Abstention | The model answering "the contract does not say" |

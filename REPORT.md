@@ -1,9 +1,5 @@
 # Contract data extraction: results
 
-What was built, how well it works, and what still needs a person. Written for readers who
-are not working on the model. The original technical version of every number here is linked
-at the bottom.
-
 Project `doc-proc-demo-1`, finished 22 September 2026, using doc-harness 0.1.8 and the
 Claude Haiku 4.5 model.
 
@@ -165,15 +161,3 @@ formatting, not for correctness.
 | [config.yaml](config.yaml) | Model, budgets and settings |
 | [docs/protocol.md](docs/protocol.md) | The method this project followed |
 
-## The original technical report
-
-This file was rewritten by hand for readability. The text the harness generated, with the
-full tables, confidence intervals and per-class counts, is unchanged in:
-
-- [runs/baseline_report.md](runs/baseline_report.md) — the untuned starting point
-- [runs/holdout/REPORT_SECTION.md](runs/holdout/REPORT_SECTION.md) — the one-shot test, in full
-- [runs/holdout/metrics.json](runs/holdout/metrics.json) — every count behind it
-- [runs/production/qa_report.md](runs/production/qa_report.md) — the full run and its checks
-- [runs/leaderboard.md](runs/leaderboard.md) — the tuning attempts
-
-Running `doc-harness close` again would overwrite this file with the generated version.
